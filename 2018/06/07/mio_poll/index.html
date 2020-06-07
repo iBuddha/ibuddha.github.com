@@ -5,23 +5,23 @@
   
 
   
-  <title>mio::poll文档 —— 翻译和注解 | Hexo</title>
+  <title>mio::poll文档 —— 翻译和注解 | iBuddha</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="翻译自mio文档: Poll Struct mio::Poll1pub struct Poll &amp;#123; &#x2F;* fields omitted *&#x2F; &amp;#125; Polls for readiness events on all registered values. Poll allows a program to monitor a large number of Evented types">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mio::poll文档 —— 翻译和注解">
-<meta property="og:url" content="http://yoursite.com/2018/06/07/mio_poll/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://ibuddha.github.io/2018/06/07/mio_poll/index.html">
+<meta property="og:site_name" content="iBuddha">
 <meta property="og:description" content="翻译自mio文档: Poll Struct mio::Poll1pub struct Poll &amp;#123; &#x2F;* fields omitted *&#x2F; &amp;#125; Polls for readiness events on all registered values. Poll allows a program to monitor a large number of Evented types">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-06-06T16:00:00.000Z">
 <meta property="article:modified_time" content="2020-06-07T09:45:18.949Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="xing">
 <meta property="article:tag" content="Rust">
 <meta property="article:tag" content="Network">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="iBuddha" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -42,8 +42,12 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">iBuddha</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一切有为法如梦幻泡影，如露亦如电，当作如是观</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -59,10 +63,10 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://ibuddha.github.io"></form>
       </div>
     </div>
   </div>
@@ -179,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/07/mio_poll/" data-id="ckb4vs3qa0001xts61affgerb" class="article-share-link">Share</a>
+      <a data-url="https://ibuddha.github.io/2018/06/07/mio_poll/" data-id="ckb4wixkx00033js6hmxcc0qc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
@@ -207,7 +211,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
+    <h3 class="widget-title">分类</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Rust/">Rust</a></li></ul>
     </div>
@@ -217,7 +221,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
+    <h3 class="widget-title">标签</h3>
     <div class="widget">
       <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
     </div>
@@ -227,7 +231,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
+    <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
       <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Rust/" style="font-size: 20px;">Rust</a>
     </div>
@@ -236,9 +240,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li></ul>
     </div>
   </div>
 
@@ -246,7 +250,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
         
@@ -270,7 +274,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2020 John Doe<br>
+      &copy; 2020 xing<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
