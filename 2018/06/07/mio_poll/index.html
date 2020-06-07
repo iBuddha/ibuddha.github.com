@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>mio::poll文档 —— 翻译和注解 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="翻译自mio文档: Poll Struct mio::Poll1pub struct Poll &amp;#123; &#x2F;* fields omitted *&#x2F; &amp;#125; Polls for readiness events on all registered values. Poll allows a program to monitor a large number of Evented types">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mio::poll文档 —— 翻译和注解">
+<meta property="og:url" content="http://yoursite.com/2018/06/07/mio_poll/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="翻译自mio文档: Poll Struct mio::Poll1pub struct Poll &amp;#123; &#x2F;* fields omitted *&#x2F; &amp;#125; Polls for readiness events on all registered values. Poll allows a program to monitor a large number of Evented types">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-06-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-07T09:45:18.949Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Rust">
+<meta property="article:tag" content="Network">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mio_poll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/07/mio_poll/" class="article-date">
+  <time datetime="2018-06-06T16:00:00.000Z" itemprop="datePublished">2018-06-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Rust/">Rust</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mio::poll文档 —— 翻译和注解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>翻译自<a href="https://docs.rs/mio/0.6.14/mio/struct.Poll.html" target="_blank" rel="noopener">mio文档: Poll</a></p>
+<h1 id="Struct-mio-Poll"><a href="#Struct-mio-Poll" class="headerlink" title="Struct mio::Poll"></a>Struct mio::Poll</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Poll</span></span> &#123; <span class="comment">/* fields omitted */</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>Polls for readiness events on all registered values.</p>
+<p>Poll allows a program to monitor a large number of Evented types, waiting until one or more become “ready” for some class of operations; e.g. reading and writing. An Evented type is considered ready if it is possible to immediately perform a corresponding operation; e.g. read or write.</p>
+<p>To use Poll, an Evented type must first be registered with the Poll instance using the register method, supplying readiness interest. The readiness interest tells Poll which specific operations on the handle to monitor for readiness. A Token is also passed to the register function. When Poll returns a readiness event, it will include this token. This associates the event with the Evented handle that generated the event.</p>
+<p>Poll用于从所有注册的value里poll处于就绪状态的事件。这个跟Java里NIO里的概念可以类比下：</p>
+<ul>
+<li>Selector &lt;-&gt; Poll。可以把Evented注册到Poll上，使用它来监听Evented有关的IO事件。是实现异步IO的关键组件。</li>
+<li>Evented &lt;-&gt; SelectionKey。可以通过SelectionKey获取底层的channel进行读写。Evented可以直接进行读写。</li>
+<li>Token &lt;-&gt; SelectionKey里attach的对象。用于将事件跟Evented关联起来。</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><hr>
+<p>一个基础的例子，创建一个TcpStream连接。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> mio::&#123;Events, Poll, Ready, PollOpt, Token&#125;;</span><br><span class="line"><span class="keyword">use</span> mio::net::TcpStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> std::net::&#123;TcpListener, SocketAddr&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个server socket, 绑定到指定地址</span></span><br><span class="line"><span class="keyword">let</span> addr: SocketAddr = <span class="string">"127.0.0.1:0"</span>.parse()?;</span><br><span class="line"><span class="keyword">let</span> server = TcpListener::bind(&amp;addr)?;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Construct a new `Poll` handle as well as the `Events` we'll store into</span></span><br><span class="line"><span class="keyword">let</span> poll = Poll::new()?;</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut</span> events = Events::with_capacity(<span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Connect the stream</span></span><br><span class="line"><span class="keyword">let</span> stream = TcpStream::connect(&amp;server.local_addr()?)?;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把stream注册到`Poll`</span></span><br><span class="line">poll.register(&amp;stream, Token(<span class="number">0</span>), Ready::readable() | Ready::writable(), PollOpt::edge())?;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Wait for the socket to become ready. This has to happens in a loop to</span></span><br><span class="line"><span class="comment">// handle spurious wakeups.</span></span><br><span class="line"><span class="comment">//等待socket可用。需要在一个处理虚假的wakeup的循环里做这件事</span></span><br><span class="line"><span class="keyword">loop</span> &#123;</span><br><span class="line">    poll.poll(&amp;<span class="keyword">mut</span> events, <span class="literal">None</span>)?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> event <span class="keyword">in</span> &amp;events &#123;</span><br><span class="line">        <span class="keyword">if</span> event.token() == Token(<span class="number">0</span>) &amp;&amp; event.readiness().is_writable() &#123;</span><br><span class="line">            <span class="comment">// The socket connected (probably, it could still be a spurious</span></span><br><span class="line">            <span class="comment">// wakeup)</span></span><br><span class="line">            <span class="comment">// socket连接上了(只是可能连接上了，仍然可能是一个假的wakeup)</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">Ok</span>(());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Events-with-capacity"><a href="#Events-with-capacity" class="headerlink" title="Events::with_capacity"></a>Events::with_capacity</h2><p>在poll的源码的注释里写到</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// The supplied `events` will be cleared and newly received readiness events</span></span><br><span class="line"><span class="comment">/// will be pushed onto the end. At most `events.capacity()` events will be</span></span><br><span class="line"><span class="comment">/// returned. If there are further pending readiness events, they will be</span></span><br><span class="line"><span class="comment">/// returned on the next call to `poll`.</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Edge-triggered-and-level-triggered"><a href="#Edge-triggered-and-level-triggered" class="headerlink" title="Edge-triggered and level-triggered"></a>Edge-triggered and level-triggered</h1><hr>
+<p>问题在于，对于已经处于就绪状态的key，如果我们在poll返回的集合里没有对它进行操作, 例如没有读写，那么<br>下一次poll的时候，它还会在集合里吗？</p>
+<h2 id="Java-NIO-的作法"><a href="#Java-NIO-的作法" class="headerlink" title="Java NIO 的作法"></a>Java NIO 的作法</h2><p>Java NIO的<code>Selector</code>维持了三个集合:</p>
+<ul>
+<li>key set。包含了所有注册到selector的channel对应的key</li>
+<li>selected-key set。在这个集合中的key对应的channel处于readiness状态。</li>
+<li>cancelled-key set。这些key已经被cancel，但是相关的channel还没有被deregistered。</li>
+</ul>
+<blockquote>
+<p>Keys are added to the selected-key set by selection operations. A key may be removed directly from the selected-key set by invoking the set’s remove method or by invoking the remove method of an iterator obtained from the set. Keys are never removed from the selected-key set in any other way; they are not, in particular, removed as a side effect of selection operations. Keys may not be added directly to the selected-key set.</p>
+</blockquote>
+<p>对Java的NIO框架，所有处于就绪状态的key会一直在<code>Selector#selectedKey()</code>返回的集合中，除非你主动移除它。</p>
+<h2 id="Rust-mio的作法"><a href="#Rust-mio的作法" class="headerlink" title="Rust mio的作法"></a>Rust mio的作法</h2><p>Rust对上边这个问题的处理，给用户提供了两种选择：edge-triggered 以及 level-triggered.<br>这个跟电路的相关知识类似。<br>下边是对相关文档的解要翻译：</p>
+<blockquote>
+<p>一个<code>Evented</code>在注册的时候可以选择请求的是edge-triggered事件，还是level-triggered的事件。<br>试想有下面的场景发生：</p>
+<ol>
+<li>通过<code>Poll</code>注册了一个<code>TcpStream</code></li>
+<li>socket接收到了2kb数据</li>
+<li>对<code>Poll::poll</code>的调用返回了token以及绑定在这个token上的socket，指示说这个socket处于读就绪状态。</li>
+<li>从socket里读取了1kb数据</li>
+<li>再次调用<code>Poll::poll</code></li>
+</ol>
+</blockquote>
+<blockquote>
+<p>如果在注册这个socket时要求的是edge-triggered event，那么当在第5步调用<code>Poll::poll</code>时可能会hang住，即使现在在socket的read buffer里有1kb数据。原因是edge-triggered模式只有当被监听的<code>Evented</code>有事件发生时才会投递事件。</p>
+</blockquote>
+<blockquote>
+<p>当使用edger-triggered events时，必须对<code>Evented</code>进行处理，直接它返回<code>WouldBlock</code>。按句话说，在收到了指标说就绪状态的消息以后，你必须假设<code>Poll::poll</code>以后不会对这个token再返回消息，直到你对它的操作返回<code>WouldBlock</code>。</p>
+</blockquote>
+<blockquote>
+<p>作为对比的是，当要求的是level-triggered通知时，只要相关的socket buffer有数据就会返回event。通常来说，当需要高性能时，就要避免使用level-triggered events.</p>
+</blockquote>
+<blockquote>
+<p>Since even with edge-triggered events, multiple events can be generated upon receipt of multiple chunks of data, the caller has the option to set the oneshot flag. This tells Poll to disable the associated Evented after the event is returned from Poll::poll. The subsequent calls to Poll::poll will no longer include events for Evented handles that are disabled even if the readiness state changes. The handle can be re-enabled by calling reregister. When handles are disabled, internal resources used to monitor the handle are maintained until the handle is dropped or deregistered. This makes re-registering the handle a fast operation.</p>
+</blockquote>
+<blockquote>
+<p>For example, in the following scenario:</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>A TcpStream is registered with Poll.</li>
+<li>The socket receives 2kb of data.</li>
+<li>A call to Poll::poll returns the token associated with the socket indicating readable readiness.</li>
+<li>2kb is read from the socket.</li>
+<li>Another call to read is issued and WouldBlock is returned</li>
+<li>The socket receives another 2kb of data.</li>
+<li>Another call to Poll::poll is made.<br>Assuming the socket was registered with Poll with the edge and oneshot options, then the call to Poll::poll in step 7 would block. This is because, oneshot tells Poll to disable events for the socket after returning an event.</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>In order to receive the event for the data received in step 6, the socket would need to be reregistered using reregister.</p>
+</blockquote>
+<p>这一段是说在注册到<code>Poll</code>的时候有个<code>oneshot</code>标识，当它被set以后，当相关的<code>Evented</code>的第一个event被返回以后，这个<code>Evented</code>的handle就被disable了，直到你调用<code>reregister</code>。由于在<code>Evented</code>的handle被disable以后，监控它所使用的内部资源没有被释放，所以这个re-register操作是一个很快的操作。</p>
+<p>这个特性是Java所没有的。</p>
+<h1 id="可移植性"><a href="#可移植性" class="headerlink" title="可移植性"></a>可移植性</h1><hr>
+<p>只要按照下面的规范，<code>Poll</code>就提供了对所支持的所有平台都可用的接口。</p>
+<h2 id="Spurious-Events"><a href="#Spurious-Events" class="headerlink" title="Spurious Events"></a>Spurious Events</h2><p>即使相关联的<code>Evented</code>handle没有真的就绪，<code>Poll::poll</code>也可能返回就绪事件。</p>
+<p>如果操作失败，返回<code>WouldBlock</code>，那么调用者不应该把它当作一个错误，因该等待下一个就绪事件到来。</p>
+<h2 id="Draining-readiness"><a href="#Draining-readiness" class="headerlink" title="Draining readiness"></a>Draining readiness</h2><p>当使用edge-triggered模式时，当收到一个就绪事件时，应该一直执行操作，直到<code>WouldBlock</code>被返回。</p>
+<h2 id="Readiness-operations"><a href="#Readiness-operations" class="headerlink" title="Readiness operations"></a>Readiness operations</h2><p>只有<code>readable</code>和<code>writable</code>才是所有平台都支持的readiness operation。<br>所以即使注册了对<code>hup</code>和<code>error</code>的关注，当收到相关消息时，也只在通过实际的读写才能知道直正的情况。</p>
+<h2 id="Registering-handles"><a href="#Registering-handles" class="headerlink" title="Registering handles"></a>Registering handles</h2><p>除非另外说明，应该假设实现了<code>Evented</code>的类型只有在被注册到<code>Poll</code>以后才可能就绪。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/07/mio_poll/" data-id="ckb4vs3qa0001xts61affgerb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/17/Rust_a_complex_example/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于reborrow的一个复杂的例子</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Rust/">Rust</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Rust/" style="font-size: 20px;">Rust</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/07/mio_poll/">mio::poll文档 —— 翻译和注解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/17/Rust_a_complex_example/">关于reborrow的一个复杂的例子</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

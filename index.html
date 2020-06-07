@@ -64,12 +64,16 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-mio_poll" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/06/07/hello-world/" class="article-date">
-  <time datetime="2020-06-07T09:12:00.399Z" itemprop="datePublished">2020-06-07</time>
+    <a href="/2018/06/07/mio_poll/" class="article-date">
+  <time datetime="2018-06-06T16:00:00.000Z" itemprop="datePublished">2018-06-07</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Rust/">Rust</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -78,7 +82,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/07/hello-world/">Hello World</a>
+      <a class="article-title" href="/2018/06/07/mio_poll/">mio::poll文档 —— 翻译和注解</a>
     </h1>
   
 
@@ -86,26 +90,86 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <p>翻译自<a href="https://docs.rs/mio/0.6.14/mio/struct.Poll.html" target="_blank" rel="noopener">mio文档: Poll</a></p>
+<h1 id="Struct-mio-Poll"><a href="#Struct-mio-Poll" class="headerlink" title="Struct mio::Poll"></a>Struct mio::Poll</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Poll</span></span> &#123; <span class="comment">/* fields omitted */</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>Polls for readiness events on all registered values.</p>
+<p>Poll allows a program to monitor a large number of Evented types, waiting until one or more become “ready” for some class of operations; e.g. reading and writing. An Evented type is considered ready if it is possible to immediately perform a corresponding operation; e.g. read or write.</p>
+<p>To use Poll, an Evented type must first be registered with the Poll instance using the register method, supplying readiness interest. The readiness interest tells Poll which specific operations on the handle to monitor for readiness. A Token is also passed to the register function. When Poll returns a readiness event, it will include this token. This associates the event with the Evented handle that generated the event.</p>
+<p>Poll用于从所有注册的value里poll处于就绪状态的事件。这个跟Java里NIO里的概念可以类比下：</p>
+<ul>
+<li>Selector &lt;-&gt; Poll。可以把Evented注册到Poll上，使用它来监听Evented有关的IO事件。是实现异步IO的关键组件。</li>
+<li>Evented &lt;-&gt; SelectionKey。可以通过SelectionKey获取底层的channel进行读写。Evented可以直接进行读写。</li>
+<li>Token &lt;-&gt; SelectionKey里attach的对象。用于将事件跟Evented关联起来。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2018/06/07/mio_poll/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/07/hello-world/" data-id="ckb4v9l2f0000ths66ozlf9n6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/07/mio_poll/" data-id="ckb4vs3qa0001xts61affgerb" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Rust_a_complex_example" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/17/Rust_a_complex_example/" class="article-date">
+  <time datetime="2018-05-16T16:00:00.000Z" itemprop="datePublished">2018-05-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Rust/">Rust</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/17/Rust_a_complex_example/">关于reborrow的一个复杂的例子</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在查找关于Rust的reborrow的语法时，发现这么一篇文章<a href="https://bluss.github.io/rust/fun/2015/10/11/stuff-the-identity-function-does/" target="_blank" rel="noopener">Stuff the Identity Function Does (in Rust)</a>。然后……看不懂，《Programming Rust》快看完了，这篇文章还是看不懂。<br>但是有很多不懂之处的文章，往往是最值得读的，因为它提供了一个线索，能把遗漏的知识串连起来，这是很难得的。</p>
+<p>还好有Google, 一路搜索过来，大体也搞清楚了。</p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>文章里例子是这样的。有一个递归的数据结构，List:</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">List</span></span> &#123;</span><br><span class="line">    next: <span class="built_in">Option</span>&lt;<span class="built_in">Box</span>&lt;List&gt;&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>写一个函数来遍历它</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> List &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">walk_the_list</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> current = <span class="keyword">self</span>;</span><br><span class="line">        <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">match</span> current.next &#123;</span><br><span class="line">                <span class="literal">None</span> =&gt; <span class="keyword">return</span>,</span><br><span class="line">                <span class="literal">Some</span>(<span class="keyword">ref</span> <span class="keyword">mut</span> inner) =&gt; current = inner,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以在Rust的<a href="https://play.rust-lang.org/?gist=613e13fd515bfca647ca&version=stable" target="_blank" rel="noopener">playgroud</a>里测试一下。你会发现这段代码是通不过编译的。<br>问题在哪呢？</p>
+<p>实际上这短短一段代码使用了很多隐晦的语法。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/05/17/Rust_a_complex_example/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/17/Rust_a_complex_example/" data-id="ckb4vs3q20000xts63n0fa81c" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
+
     </footer>
   </div>
   
@@ -120,18 +184,39 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Rust/">Rust</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Rust/" style="font-size: 20px;">Rust</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
     </div>
   </div>
 
@@ -144,7 +229,11 @@
       <ul>
         
           <li>
-            <a href="/2020/06/07/hello-world/">Hello World</a>
+            <a href="/2018/06/07/mio_poll/">mio::poll文档 —— 翻译和注解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/17/Rust_a_complex_example/">关于reborrow的一个复杂的例子</a>
           </li>
         
       </ul>
