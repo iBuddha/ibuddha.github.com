@@ -5,16 +5,19 @@
   
 
   
-  <title>iBuddha</title>
+  <title>hadoop_UGI | iBuddha</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="iBuddha的blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="iBuddha">
-<meta property="og:url" content="https://ibuddha.github.io/index.html">
+  <meta name="description" content="如何得到一个空的Configuratione, 都怪JDK， File类的delete()方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序 1234567val fileSystem &#x3D; FileSystem.newInstance(new Configuration())val warehousePath &#x3D; new Path(&quot;spark-warehouse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop_UGI">
+<meta property="og:url" content="https://ibuddha.github.io/2020/07/11/hadoop-empty-configuration/index.html">
 <meta property="og:site_name" content="iBuddha">
-<meta property="og:description" content="iBuddha的blog">
+<meta property="og:description" content="如何得到一个空的Configuratione, 都怪JDK， File类的delete()方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序 1234567val fileSystem &#x3D; FileSystem.newInstance(new Configuration())val warehousePath &#x3D; new Path(&quot;spark-warehouse">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-11T14:44:54.000Z">
+<meta property="article:modified_time" content="2020-07-11T16:12:52.259Z">
 <meta property="article:author" content="xing">
+<meta property="article:tag" content="hadoop">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="iBuddha" type="application/atom+xml">
@@ -68,9 +71,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-hadoop-empty-configuration" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hadoop-empty-configuration" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/11/hadoop-empty-configuration/" class="article-date">
   <time datetime="2020-07-11T14:44:54.000Z" itemprop="datePublished">2020-07-11</time>
@@ -87,8 +88,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/11/hadoop-empty-configuration/">hadoop_UGI</a>
+    <h1 class="article-title" itemprop="name">
+      hadoop_UGI
     </h1>
   
 
@@ -135,124 +136,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-mio_poll" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/07/mio_poll/" class="article-date">
-  <time datetime="2018-06-06T16:00:00.000Z" itemprop="datePublished">2018-06-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Rust/">Rust</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/07/mio_poll/">mio::poll文档 —— 翻译和注解</a>
-    </h1>
+    <a href="/2018/06/07/mio_poll/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mio::poll文档 —— 翻译和注解</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>翻译自<a href="https://docs.rs/mio/0.6.14/mio/struct.Poll.html" target="_blank" rel="noopener">mio文档: Poll</a></p>
-<h1 id="Struct-mio-Poll"><a href="#Struct-mio-Poll" class="headerlink" title="Struct mio::Poll"></a>Struct mio::Poll</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="class"><span class="keyword">struct</span> <span class="title">Poll</span></span> &#123; <span class="comment">/* fields omitted */</span> &#125;</span><br></pre></td></tr></table></figure>
-<p>Polls for readiness events on all registered values.</p>
-<p>Poll allows a program to monitor a large number of Evented types, waiting until one or more become “ready” for some class of operations; e.g. reading and writing. An Evented type is considered ready if it is possible to immediately perform a corresponding operation; e.g. read or write.</p>
-<p>To use Poll, an Evented type must first be registered with the Poll instance using the register method, supplying readiness interest. The readiness interest tells Poll which specific operations on the handle to monitor for readiness. A Token is also passed to the register function. When Poll returns a readiness event, it will include this token. This associates the event with the Evented handle that generated the event.</p>
-<p>Poll用于从所有注册的value里poll处于就绪状态的事件。这个跟Java里NIO里的概念可以类比下：</p>
-<ul>
-<li>Selector &lt;-&gt; Poll。可以把Evented注册到Poll上，使用它来监听Evented有关的IO事件。是实现异步IO的关键组件。</li>
-<li>Evented &lt;-&gt; SelectionKey。可以通过SelectionKey获取底层的channel进行读写。Evented可以直接进行读写。</li>
-<li>Token &lt;-&gt; SelectionKey里attach的对象。用于将事件跟Evented关联起来。</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2018/06/07/mio_poll/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://ibuddha.github.io/2018/06/07/mio_poll/" data-id="ckchulfwn00022hfyfnkhdvpg" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/" rel="tag">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-    <article id="post-Rust_a_complex_example" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/17/Rust_a_complex_example/" class="article-date">
-  <time datetime="2018-05-16T16:00:00.000Z" itemprop="datePublished">2018-05-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Rust/">Rust</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/17/Rust_a_complex_example/">关于reborrow的一个复杂的例子</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在查找关于Rust的reborrow的语法时，发现这么一篇文章<a href="https://bluss.github.io/rust/fun/2015/10/11/stuff-the-identity-function-does/" target="_blank" rel="noopener">Stuff the Identity Function Does (in Rust)</a>。然后……看不懂，《Programming Rust》快看完了，这篇文章还是看不懂。<br>但是有很多不懂之处的文章，往往是最值得读的，因为它提供了一个线索，能把遗漏的知识串连起来，这是很难得的。</p>
-<p>还好有Google, 一路搜索过来，大体也搞清楚了。</p>
-<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>文章里例子是这样的。有一个递归的数据结构，List:</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">List</span></span> &#123;</span><br><span class="line">    next: <span class="built_in">Option</span>&lt;<span class="built_in">Box</span>&lt;List&gt;&gt;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>写一个函数来遍历它</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> List &#123;</span><br><span class="line">    <span class="function"><span class="keyword">fn</span> <span class="title">walk_the_list</span></span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut</span> current = <span class="keyword">self</span>;</span><br><span class="line">        <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">match</span> current.next &#123;</span><br><span class="line">                <span class="literal">None</span> =&gt; <span class="keyword">return</span>,</span><br><span class="line">                <span class="literal">Some</span>(<span class="keyword">ref</span> <span class="keyword">mut</span> inner) =&gt; current = inner,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以在Rust的<a href="https://play.rust-lang.org/?gist=613e13fd515bfca647ca&version=stable" target="_blank" rel="noopener">playgroud</a>里测试一下。你会发现这段代码是通不过编译的。<br>问题在哪呢？</p>
-<p>实际上这短短一段代码使用了很多隐晦的语法。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/05/17/Rust_a_complex_example/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://ibuddha.github.io/2018/05/17/Rust_a_complex_example/" data-id="ckchulfws00062hfyfuyg84aw" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Rust/" rel="tag">Rust</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
 
 </section>
         
