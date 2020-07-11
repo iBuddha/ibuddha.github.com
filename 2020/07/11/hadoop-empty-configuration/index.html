@@ -5,17 +5,17 @@
   
 
   
-  <title>get an empty Hadoop Configuration | iBuddha</title>
+  <title>如何得到一个空的Hadoop Configuration | iBuddha</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="如何得到一个空的Configuratione, 都怪JDK， File类的delete()方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序 1234567val fileSystem &#x3D; FileSystem.newInstance(new Configuration())val warehousePath &#x3D; new Path(&quot;spark-warehouse">
+  <meta name="description" content="e, 都怪JDK， File类的delete()方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序 1234567val fileSystem &#x3D; FileSystem.newInstance(new Configuration())val warehousePath &#x3D; new Path(&quot;spark-warehouse&quot;)if(fileSystem.exist">
 <meta property="og:type" content="article">
-<meta property="og:title" content="get an empty Hadoop Configuration">
+<meta property="og:title" content="如何得到一个空的Hadoop Configuration">
 <meta property="og:url" content="https://ibuddha.github.io/2020/07/11/hadoop-empty-configuration/index.html">
 <meta property="og:site_name" content="iBuddha">
-<meta property="og:description" content="如何得到一个空的Configuratione, 都怪JDK， File类的delete()方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序 1234567val fileSystem &#x3D; FileSystem.newInstance(new Configuration())val warehousePath &#x3D; new Path(&quot;spark-warehouse">
+<meta property="og:description" content="e, 都怪JDK， File类的delete()方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序 1234567val fileSystem &#x3D; FileSystem.newInstance(new Configuration())val warehousePath &#x3D; new Path(&quot;spark-warehouse&quot;)if(fileSystem.exist">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-11T14:44:54.000Z">
-<meta property="article:modified_time" content="2020-07-11T16:17:56.682Z">
+<meta property="article:modified_time" content="2020-07-11T16:20:14.549Z">
 <meta property="article:author" content="xing">
 <meta property="article:tag" content="hadoop">
 <meta name="twitter:card" content="summary">
@@ -89,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      get an empty Hadoop Configuration
+      如何得到一个空的Hadoop Configuration
     </h1>
   
 
@@ -97,7 +97,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="如何得到一个空的Configuration"><a href="#如何得到一个空的Configuration" class="headerlink" title="如何得到一个空的Configuration"></a>如何得到一个空的Configuration</h1><p>e, 都怪JDK， <code>File</code>类的<code>delete()</code>方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序</p>
+        <p>e, 都怪JDK， <code>File</code>类的<code>delete()</code>方法竟然不能删除非空的目录。所以，我就想用Hadoop的API，于是有了下面一段程序</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fileSystem = <span class="type">FileSystem</span>.newInstance(<span class="keyword">new</span> <span class="type">Configuration</span>())</span><br><span class="line"><span class="keyword">val</span> warehousePath = <span class="keyword">new</span> <span class="type">Path</span>(<span class="string">"spark-warehouse"</span>)</span><br><span class="line"><span class="keyword">if</span>(fileSystem.exists(warehousePath))</span><br><span class="line">  fileSystem.delete(warehousePath, <span class="literal">true</span>)</span><br><span class="line"><span class="keyword">val</span> metastoreDB = <span class="keyword">new</span> <span class="type">Path</span>(<span class="string">"metastore_db"</span>)</span><br><span class="line"><span class="keyword">if</span> (fileSystem.exists(metastoreDB))</span><br><span class="line">  fileSystem.delete(metastoreDB)</span><br></pre></td></tr></table></figure>
 
 <p>问题是，<code>new Configuration()</code>默认会从classpath里找到<code>core-site.xml</code>和<code>core-default.xml</code>来加载，所以我想，万一以后不小心把这些文件加到classpath里呢？比如哪天我想要测试连接别的机器上的HDFS。还好，<code>Configuration</code>类有个方法来禁止对这俩文件的加载， 正如这个类的注释所说的</p>
@@ -128,7 +128,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://ibuddha.github.io/2020/07/11/hadoop-empty-configuration/" data-id="ckchus0tk000065870x4w69jo" class="article-share-link">Share</a>
+      <a data-url="https://ibuddha.github.io/2020/07/11/hadoop-empty-configuration/" data-id="ckchuuz0g00047287anz4dnws" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hadoop/" rel="tag">hadoop</a></li></ul>
@@ -200,7 +200,7 @@
       <ul>
         
           <li>
-            <a href="/2020/07/11/hadoop-empty-configuration/">get an empty Hadoop Configuration</a>
+            <a href="/2020/07/11/hadoop-empty-configuration/">如何得到一个空的Hadoop Configuration</a>
           </li>
         
           <li>
